@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "TrendScout – Product Research & Store Lister",
+  "short_name": "TrendScout",
+  "version": "1.0.0",
+  "description": "Find trending products by country and category, estimate sales, ad activity and margins, and list to your own store only with your explicit permission.",
+  "minimum_chrome_version": "116",
+  "icons": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "action": {
+    "default_title": "TrendScout",
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }
+  },
+  "options_ui": { "page": "dashboard.html", "open_in_tab": true },
+  "side_panel": { "default_path": "sidepanel.html" },
+  "background": { "service_worker": "background.js", "type": "module" },
+  "permissions": ["storage", "identity", "alarms", "notifications", "sidePanel"],
+  "host_permissions": ["http://localhost:3001/*"],
+  "optional_host_permissions": ["https://*/*"],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.amazon.com/*/dp/*", "https://www.amazon.com/dp/*", "https://www.amazon.com/gp/product/*",
+        "https://www.amazon.co.uk/*/dp/*", "https://www.amazon.co.uk/dp/*",
+        "https://www.amazon.de/*/dp/*", "https://www.amazon.de/dp/*",
+        "https://www.amazon.ca/*/dp/*", "https://www.amazon.ca/dp/*",
+        "https://www.amazon.in/*/dp/*", "https://www.amazon.in/dp/*",
+        "https://www.amazon.com.au/*/dp/*", "https://www.amazon.com.au/dp/*",
+        "https://*.aliexpress.com/item/*", "https://*.aliexpress.us/item/*",
+        "https://*.myshopify.com/products/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; base-uri 'self'; img-src 'self' https: data:"
+  }
+}
